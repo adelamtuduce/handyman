@@ -9,29 +9,32 @@
   </head>
 
   <body>
-  <p class="navbar-text pull-right">
-  <% if user_signed_in? && !current_user.blank? %>
-  
-  Hi <%= current_user.name %>
-  
-  <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
-  
-  <% else %>
-  
-  <%= link_to 'Sign up', new_user_registration_path %> or
-  
-  <%= link_to 'Sign in', new_user_session_path %>
-  
-  <%= link_to 'Sign in with Google', user_google_oauth2_omniauth_authorize_path %>
-  
-  <%= link_to 'Sign in with Facebook', user_facebook_omniauth_authorize_path %>
-  
-  <% end %>
-  </p>
-
-  <ul class="nav">
-  <li class="active"><a href="/ideas">Ideas</a></li>
-</ul>
-    <%= yield %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">HandyMan</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav float-right">
+          <div class='row'>
+            <% if user_signed_in? && !current_user.blank? %>   
+              <li class="nav-item">
+                <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
+              </li>
+            <% else %>
+              <li class="nav-item col-auto">
+                <%= link_to 'Sign in with Google', user_google_oauth2_omniauth_authorize_path, class: 'btn btn-block btn-social btn-google nav-link'  %>
+              </li>
+              <li class="nav-item col-auto">
+                <%= link_to 'Sign in with Facebook', user_facebook_omniauth_authorize_path, class: 'nav-link' %>
+              </li>
+            <% end %>
+            </div>
+          </ul>
+        
+      </div>
+    </nav>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </body>
 </html>
+
