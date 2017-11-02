@@ -54,9 +54,9 @@ Devise.setup do |config|
   # modifying a user and when used to authenticate or find a user. Default is :email.
   config.strip_whitespace_keys = [:email]
   
-  config.omniauth :facebook, "967068240489-56409n7bf3csi0dvkbh9nl2q1apve0u9.apps.googleusercontent.com", "aiCtGkCFS9zqu6JXX_QUs6qr"
+  config.omniauth :facebook, "161557804437811", "17e9e4e4ae6993e2bd0d1f0f5afec3e5"
   
-  config.omniauth :google_oauth2, "handyman-184818", "AIzaSyAdshNg7qSEDkMfKQcvqZmwO8SA-M2gQaQ"
+  config.omniauth :google_oauth2, "967068240489-56409n7bf3csi0dvkbh9nl2q1apve0u9.apps.googleusercontent.com", "aiCtGkCFS9zqu6JXX_QUs6qr"
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
