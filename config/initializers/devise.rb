@@ -1,5 +1,6 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+require "omniauth-facebook"
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -52,8 +53,10 @@ Devise.setup do |config|
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
   config.strip_whitespace_keys = [:email]
-
-  config.omniauth :facebook, "APP_ID", "APP_SECRET"
+  
+  config.omniauth :facebook, "967068240489-56409n7bf3csi0dvkbh9nl2q1apve0u9.apps.googleusercontent.com", "aiCtGkCFS9zqu6JXX_QUs6qr"
+  
+  config.omniauth :google_oauth2, "handyman-184818", "AIzaSyAdshNg7qSEDkMfKQcvqZmwO8SA-M2gQaQ"
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
