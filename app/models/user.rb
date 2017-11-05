@@ -4,22 +4,27 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  def self.find_for_facebook_oauth(auth, signed_in_resource = nil)    
+  def self.find_for_facebook_oauth(auth, signed_in_resource = nil)  
+    puts "JJjJJJJJJJJJJJJJJJJJ" 
+    puts auth 
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    puts user
     if user
       return user
     else
       registered_user = User.where(:email => auth.info.email).first
+      puts "hhhhhhhhhhhhhhh"
+
+      puts registered_user
       if registered_user
         return registered_user
       else
-        auth.provider = “Facebook”
-        user = User.create!(first_name:auth.extra.raw_info.first_name,
-        last_name:auth.extra.raw_info.last_name,
+        auth.provider = 'Facebook'
+        puts "New entry data: #{auth}"
+        user = User.create!(
         provider:auth.provider,
         email:auth.info.email,
-        password:Devise.friendly_token[0,20],
-        confirmed_at:Time.zone.now # if u don’t want to send any confirmation mail
+        password:Devise.friendly_token[0,20]# if u don’t want to send any confirmation mail
         )
       end
     end
@@ -35,13 +40,11 @@ class User < ApplicationRecord
       if registered_user
         return registered_user
       else
-        access_token.provider = “Google”
-        user = User.create(first_name: data[“first_name”],
-        last_name: data[“last_name”],
+        access_token.provider = 'Google'
+        user = User.create(
         provider:access_token.provider,
-        email: data[“email”],
-        password: Devise.friendly_token[0,20],
-        confirmed_at:Time.zone.now # if u don’t want to send any confirmation mail
+        email: data['email'],
+        password: Devise.friendly_token[0,20]# if u don’t want to send any confirmation mail
         )
       end
     end 
