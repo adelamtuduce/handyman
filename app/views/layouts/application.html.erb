@@ -29,12 +29,9 @@
     </nav>
     <div class="container">
       <div class="row">
-        <div class="col"></div>
         <div class='col' style="margin-top: 50px;">
           <% if current_user %>
-            <div style='width: 920px;'>
-              <div id="map" style='width: 920px; height: 500px;'></div>
-            </div>
+            <%= yield %>
           <% else %>
             <%= link_to user_google_oauth2_omniauth_authorize_path, class: 'btn btn-lg btn-social btn-google' do %>
               <i class="fa fa-google"></i> Sign in with Google
@@ -47,53 +44,9 @@
             <% end %>
           <% end %>
         </div>
-        <div class="col"></div>
       </div>
     </div>
 
     
   </body>
 </html>
-<script>
-window.onload = function() {
-  geoFindMe();
-}
-function geoFindMe() {
-
-  if (!navigator.geolocation){
-    console.log("ddddd")
-    return;
-  }
-
-  function success(position) {
-    var latitude  = position.coords.latitude;
-    var longitude = position.coords.longitude;
-
-    handler = Gmaps.build('Google');
-handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-  markers = handler.addMarkers([
-    {
-      "lat": latitude,
-      "lng": longitude,
-      "picture": {
-        "url": "http://people.mozilla.com/~faaborg/files/shiretoko/firefoxIcon/firefox-32.png",
-        "width":  32,
-        "height": 32
-      },
-      "infowindow": "hello!"
-    }
-  ]);
-  handler.bounds.extendWith(markers);
-  handler.fitMapToBounds();
-});
-
-  }
-
-  function error() {
-  }
-
-
-  navigator.geolocation.getCurrentPosition(success, error);
-}
-</script>
-

@@ -4,16 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
+  has_one :personal_information
+
   def self.find_for_facebook_oauth(auth, signed_in_resource = nil)  
-    puts "JJjJJJJJJJJJJJJJJJJJ" 
-    puts auth 
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    puts user
     if user
       return user
     else
       registered_user = User.where(:email => auth.info.email).first
-      puts "hhhhhhhhhhhhhhh"
 
       puts registered_user
       if registered_user

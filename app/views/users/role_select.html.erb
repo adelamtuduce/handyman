@@ -1,0 +1,17 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <h1>Please select a role from the following: </h1>
+            </br>
+                <div class='row'>
+                <%= button_to "Service Provider", update_role_user_path(role: 'Service Provider'), class: 'btn btn-lg btn-info', style: 'margin-left: 110px;' %>
+                </br>
+                <%= button_to "Service Consumer", update_role_user_path(role: 'Service User'), class: 'btn btn-lg btn-info', style: 'margin-left: 50px;' %>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

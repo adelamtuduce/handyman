@@ -4,14 +4,17 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
             # You need to implement the method below in your model (e.g. app/models/user.rb)
             
             @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
-            puts "Kkkkkkkkkkkkkkkkkkkk"
-            puts @user.to_yaml
             
             if @user.persisted?
             
             session[:sn_user] = request.env['omniauth.params']
             
-            sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
+            sign_in @user
+            if @user.role_id && @user.personal_information
+                redirect_to edit_user_path(@user)
+            else
+                redirect_to role_user_path(@user), :event => :authentication #this will throw if @user is not activated
+            end
             
             set_flash_message(:notice, :success, :kind => 'Facebook') if is_navigational_format?
         

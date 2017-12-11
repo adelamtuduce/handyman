@@ -1,0 +1,181 @@
+<h2>Edit information</h2>
+<br/>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+        <% if @user.personal_information %>
+            <div style='width: 920px;'>
+                <div id="map" style='width: 500px; height: 500px;'></div>
+            </div>
+        <% end %>
+        </div>
+        <div class="col-md-6">
+        <%= form_for(@user, html: { method: :put }) do |f| %>
+
+        <div class="form-group">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, readonly: true, class: 'form-control' %>
+        </div>
+
+        <%= f.fields_for :personal_information, @user.personal_information do |field| %>
+
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="card">
+                    <div class="card-header" style="background-color: #333; border-color: #333;" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                            <a data-toggle="collapse" style="text-decoration: none; color: white;" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Personal Information
+                            </a>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="col-md-12">   
+                            <div class="card-block">
+                                <div class="form-group">
+                                    <%= field.label :first_name %>
+                                    <%= field.text_field :first_name, class: 'form-control' %>
+                                </div>
+
+                                <div class="form-group">
+                                    <%= field.label :last_name %>
+                                    <%= field.text_field :last_name, class: 'form-control' %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" role="tab" style="background-color: #333; border-color: #333;" id="headingTwo">
+                        <h5 class="mb-0">
+                            <a class="collapsed" style="text-decoration: none; color: white;" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Country Information
+                            </a>
+                        </h5>
+                    </div>
+                    
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="col-md-12">
+                            <div class="card-block">
+                                <div class="form-group">
+                                    <%= field.label :city %>
+                                    <%= field.text_field :city, class: 'form-control' %>
+                                </div>
+
+                                <div class="form-group">
+                                    <%= field.label :county %>
+                                    <%= field.text_field :county, class: 'form-control' %>
+                                </div>
+
+                                <div class="form-group">
+                                    <%= field.label :country %>
+                                    <%= field.text_field :country, class: 'form-control' %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" role="tab" style="background-color: #333; border-color: #333;" id="headingThree">
+                        <h5 class="mb-0">
+                            <a class="collapsed" style="text-decoration: none; color: white;" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Address Information
+                            </a>
+                        </h5>
+                    </div>
+                    
+                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="card-block">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <%= field.label :street %>
+                                    <%= field.text_field :street, class: 'form-control' %>
+                                </div>
+                            
+                                <div class='row'>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <%= field.label :number %>
+                                            <%= field.text_field :number, class: 'form-control' %>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <%= field.label :apartment %>
+                                            <%= field.text_field :apartment, class: 'form-control' %>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+                                            <%= field.label :building %>
+                                            <%= field.text_field :building, class: 'form-control' %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+        <% end %>
+
+        </br>
+
+        <%= f.submit 'Update Information', class: "btn btn-success" %>
+        <% end %>
+
+        <h3>Cancel my account</h3>
+
+        <p>Unhappy? <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger" %></p>
+
+    </div>
+</div>
+
+<script>
+<% if @user.personal_information %>
+    var latitude = <%= @user.personal_information.latitude %>;
+    var longitude = <%= @user.personal_information.longitude %>;
+    console.log(latitude)
+    console.log(longitude)
+
+    window.onload = function() {
+    geoFindMe();
+    }
+    function geoFindMe() {
+
+    if (!navigator.geolocation){
+        console.log("ddddd")
+        return;
+    }
+
+    function success(position) {
+        
+
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+        markers = handler.addMarkers([
+        {
+        "lat": latitude,
+        "lng": longitude,
+        "infowindow": "<%= @user.personal_information.address %>"
+        }
+    ]);
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.getMap().setZoom(18);
+    });
+
+    }
+
+    function error() {
+    }
+
+
+    navigator.geolocation.getCurrentPosition(success, error);
+    }
+<% end %>
+</script>
