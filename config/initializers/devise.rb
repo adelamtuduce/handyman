@@ -1,6 +1,7 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 require "omniauth-facebook"
+OmniAuth.config.full_host = Rails.env.production? ? 'https://handy-man.herokuapp.com' : 'http://localhost:3000'
 
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate

@@ -10,7 +10,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
             session[:sn_user] = request.env['omniauth.params']
             
             sign_in @user
-            if @user.role_id && @user.personal_information
+            if @user.role_id
                 redirect_to edit_user_path(@user)
             else
                 redirect_to role_user_path(@user), :event => :authentication #this will throw if @user is not activated
@@ -39,7 +39,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
             flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', :kind => 'Google'
             
             sign_in @user
-            if @user.role_id && @user.personal_information
+            if @user.role_id
                 redirect_to edit_user_path(@user)
             else
                 redirect_to role_user_path(@user), :event => :authentication #this will throw if @user is not activated
