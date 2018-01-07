@@ -23,6 +23,22 @@
             <li class="nav-item col-auto">
               <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
             </li>
+            <% if current_user.role %> 
+              
+               <% if current_user.role.id == 1 %>
+                <li class="nav-item col-auto">
+                <%= link_to 'Add service', new_service_path %>
+                </li>
+                <li class="nav-item col-auto">
+                <%= link_to 'View services', services_path %>
+                </li>
+              <% else %>
+              <li class="nav-item col-auto">
+                <%= link_to 'View services', services_path %>
+                </li>
+              <% end %>
+            
+            <% end %>
           <% end %>
         </ul>
       </div>
@@ -42,6 +58,10 @@
             <%= link_to user_facebook_omniauth_authorize_path, class: 'btn btn-lg btn-social btn-facebook' do %>
               <i class="fa fa-facebook"></i> Sign in with Facebook
             <% end %>
+            </br>
+            </br>
+            </br>
+        
           <% end %>
         </div>
       </div>

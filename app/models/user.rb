@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   has_one :personal_information
+  belongs_to :role, optional: true
 
   def self.find_for_facebook_oauth(auth, signed_in_resource = nil)  
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -26,6 +27,14 @@ class User < ApplicationRecord
         )
       end
     end
+  end
+
+  def register_to_service(service)
+    UserSubscription.create(user_id: id, service_id: service.id)
+  end
+
+  def subscribed_to?(service)
+    UserSubscription.find_by(user_id: id, service_id: service.id)
   end
     
   def self.find_for_google_oauth2(access_token, signed_in_resource = nil)

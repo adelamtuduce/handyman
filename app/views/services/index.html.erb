@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Available Services</h1>
+
+<table class="table">  
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Starting price</th>
+      <th scope="col">Timeframe</th>
+      <th scope="col">Subscriptions</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @services.each do |service| %>
+      <tr>
+        <td><%= service.name %></td>
+        <td><%= service.description %></td>
+        <td><%= service.start_price.to_s + ' LEI' %></td>
+        <td><%= service.start_time.to_s + '-' + service.end_time.to_s %></td>
+        <td>
+        <% if current_user.role.id == 2 %>
+          <% if current_user.subscribed_to?(service) %>
+                <span class="badge badge-default">Subscribed</span>
+              <% else %>
+                <%= link_to 'Subscribe to service', subscribe_user_service_path(service), method: :post, class: 'btn btn-success' %>
+              <% end %>
+        <% else %>
+          <span class="badge badge-default">Disabled</span>
+        <% end %>
+        </td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if current_user.role.id == 1 %>
+  <%= link_to 'New Service', new_service_path %>
+<% end %>

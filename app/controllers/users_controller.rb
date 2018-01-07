@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   end
 
   def update_role
-    @user.update_attributes(role_id: Role.find_by(name: params[:role]))
+    @user.update_attributes(role_id: Role.find_by(name: params[:role]).id)
     redirect_to edit_user_path(@user)
   end
     

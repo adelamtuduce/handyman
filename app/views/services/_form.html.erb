@@ -1,0 +1,43 @@
+<%= form_with(model: service, local: true) do |field| %>
+  <% if service.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
+
+      <ul>
+      <% service.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="col-md-12">
+      <div class="form-group">
+          <%= field.label :name %>
+          <%= field.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+          <%= field.label :start_price %>
+          <%= field.text_field :start_price, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+          <%= field.label :description %>
+          <%= field.text_field :description, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+          <%= field.label :start_time %>
+          <%= field.number_field :start_time, class: 'form-control', min: 8, max: 17 %>
+      </div>
+
+      <div class="form-group">
+          <%= field.label :end_time %>
+          <%= field.number_field :end_time, class: 'form-control', min: 8, max: 17 %>
+      </div>
+      </br>
+      <%= field.submit 'Create service', class: "btn btn-success" %>
+
+  </div>
+<% end %>

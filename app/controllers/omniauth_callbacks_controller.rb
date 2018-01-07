@@ -15,7 +15,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
             else
                 redirect_to role_user_path(@user), :event => :authentication #this will throw if @user is not activated
             end
-            
+
             set_flash_message(:notice, :success, :kind => 'Facebook') if is_navigational_format?
         
         else
@@ -38,7 +38,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
             
             flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', :kind => 'Google'
             
-            sign_in_and_redirect @user, :event => :authentication
+            sign_in @user
+            if @user.role_id && @user.personal_information
+                redirect_to edit_user_path(@user)
+            else
+                redirect_to role_user_path(@user), :event => :authentication #this will throw if @user is not activated
+            end
         
         else
         
@@ -48,4 +53,5 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         
         end
     end
+    
 end
